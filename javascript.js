@@ -18,6 +18,21 @@ function getComputerChoice() {
 
 function playRound(playerSelection, computerSelection) {
 
+    if (computerResults.textContent == "5 CPU Wins") {
+        winner.textContent = "Computer is the winner";
+        computerResults.textContent = "0 CPU Wins"
+        playerResults.textContent = "0 Player Wins"
+    } 
+    
+    if (playerResults.textContent == "5 Human Wins") {
+        winner.textContent = "Human is the winner";
+        computerResults.textContent = "0 CPU Wins"
+        playerResults.textContent = "0 Player Wins"
+    }
+    if (playerResults.textContent == "0 Human Wins" && computerResults.textContent=="0 CPU Wins") {
+        winner.textContent = "undecided";
+    }
+
     let player;
     let computer;
 
@@ -41,53 +56,69 @@ function playRound(playerSelection, computerSelection) {
         console.log(computer)
 
     if (player == computer) {
-        return "It's a tie!"
+        return console.log("It's a tie!")
     }
 
     if (player == 1 && computer == 3 || player == 2 && computer == 1 || player == 3 && computer == 2) {
 
-        return 1
+        return playerResults.textContent = parseInt(playerResults.textContent) + 1 + " Human Wins";
 
     }
 
-    else return 0
- 
-}
-
-
-function game() {
-
-    let playerwins = 0;
-    let computerwins = 0;
-
-    for (let i = 0; i < 5; i++) {
-
-        let round = playRound(prompt("R P or S?"), getComputerChoice())
-        
-        if (round == 1) {
-            playerwins = playerwins + 1
-        } else if (round == "It's a tie!") {
-            continue
-        } else {
-            computerwins = computerwins + 1
-        }
-
+    else return computerResults.textContent = parseInt(computerResults.textContent) + 1 + " CPU Wins";
+    
     }
 
-    console.log(playerwins)
-    console.log(computerwins)
-
-    if (playerwins > computerwins) {
-        return "You won the game!"
-    } else if (playerwins == computerwins) {
-        return "You tied."
-    } else {
-        return "You lost the game."
-    }
-
-}
 
 
 
 
-console.log(game())
+// make a button click turn into a game round with the button choice being used as your choice vs the computer
+
+
+const rock = document.querySelector('#rock');
+
+rock.addEventListener('click', function() {
+    playRound("rock", getComputerChoice());
+});
+
+const paper = document.querySelector('#paper');
+
+paper.addEventListener('click', function() {
+    playRound("paper", getComputerChoice());
+});
+
+
+const scissors = document.querySelector('#scissors');
+
+scissors.addEventListener('click', function() {
+    playRound("scissors", getComputerChoice());
+});
+
+
+
+// Make results show up live on the screen
+
+const results = document.createElement('div');
+results.classList.add('results');
+results.textContent = 'Results';
+
+document.body.appendChild(results)
+
+const playerResults = document.createElement('div');
+playerResults.classList.add('playerWins');
+playerResults.textContent = "0 Human Wins";
+
+results.appendChild(playerResults)
+
+const computerResults = document.createElement('div');
+computerResults.classList.add('computerWins')
+computerResults.textContent = "0 CPU Wins";
+
+results.appendChild(computerResults)
+
+const winner = document.createElement('div');
+winner.classList.add('winner');
+results.appendChild(winner)
+
+
